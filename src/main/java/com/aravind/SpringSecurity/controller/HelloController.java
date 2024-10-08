@@ -17,6 +17,7 @@ public class HelloController {
         return "localhost ";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public String adminEndpoint(){
         return "Admin endpoint";
