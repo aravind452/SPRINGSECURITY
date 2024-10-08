@@ -97,10 +97,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
-        http.httpBasic(Customizer.withDefaults());
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/h2-console/**")
+                .permitAll()
+                .anyRequest().authenticated());
 
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+        http.httpBasic(Customizer.withDefaults());
+        //http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         return http.build();
     }
 
@@ -114,7 +118,7 @@ public class SecurityConfig {
                 .password("{noop}admin")
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user,admin);
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
 }
