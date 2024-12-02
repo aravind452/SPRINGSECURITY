@@ -22,30 +22,31 @@ public class ProductController {
     }
 
     List<Product> products = new ArrayList<>(
-            List.of(new Product(1,"Iphone",34444),
-                    new Product(2,"Mac",78888))
+            List.of(new Product(1, "Iphone", 34444),
+                    new Product(2, "Mac", 78888))
     );
 
     @GetMapping("/get-products")
-    public List<Product> getProducts(){
-        return  products;
+    public List<Product> getProducts() {
+        return products;
     }
 
 
     @PostMapping("/add-product")
-    public Product saveProduct(@RequestBody Product product){
+    public Product saveProduct(@RequestBody Product product) {
         products.add(product);
         return product;
     }
 
     @GetMapping("/csrf-token")
-    public CsrfToken getToken(HttpServletRequest request){
+    public CsrfToken getToken(HttpServletRequest request) {
         return (CsrfToken) request.getAttribute("_csrf");
 
 
     }
 
-    // Step by Step explanation for csrf token
+
+//    Step by Step explanation for csrf token
 
 //    Step-by-Step Explanation
 //    User Makes First Request (Login or Home Page Request)
@@ -72,8 +73,6 @@ public class ProductController {
 //
 //    After the user logs in, the frontend can call an endpoint (like /csrf-token) to fetch the CSRF token.
 //    The backend responds with the CSRF token retrieved from the request, and the frontend can use it for subsequent requests (e.g., API calls or form submissions).
-
-
 
 
 }
