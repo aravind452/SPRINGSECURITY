@@ -1,7 +1,7 @@
 package example.spring.security.config;
 
 
-import org.springframework.cglib.proxy.NoOp;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -29,10 +29,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
-                //.csrf(csrf -> csrf.disable())
-                .httpBasic(Customizer.withDefaults());
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("register").permitAll()
+                        .anyRequest().authenticated()
+                )
+                //.formLogin(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable());
+                //.httpBasic(Customizer.withDefaults());
 
 
         return httpSecurity.build();
